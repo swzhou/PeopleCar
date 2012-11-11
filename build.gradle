@@ -1,0 +1,60 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'war'
+apply from:'emma.gradle'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework:spring-webmvc:3.+',
+            'org.springframework:spring-web:3.+',
+            'javax.servlet:servlet-api:2.5',
+            'org.freemarker:freemarker:2.3.19',
+            'org.springframework:spring-orm:3.+',
+            'org.hibernate:hibernate-core:4.+',
+            'commons-dbcp:commons-dbcp:1.+',
+            'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.+',
+            'mysql:mysql-connector-java:5.+',
+            'org.hibernate:hibernate-annotations:3.5.+',
+            'org.hibernate:hibernate-validator:4.+',
+            'org.springframework.security:spring-security-core:3.+',
+            'org.springframework.security:spring-security-web:3.+',
+            'org.springframework.security:spring-security-config:3.+',
+            'org.springframework.security:spring-security-cas:3.+',
+            fileTree(dir: 'lib', include: '*.jar'),
+            'org.codehaus.groovy:groovy-all:2.+'
+
+    runtime 'org.slf4j:slf4j-api:1.6.+',
+            'org.slf4j:slf4j-log4j12:1.6.+',
+            'log4j:log4j:1.2.+',
+            'cglib:cglib:2.2.+'
+
+    testCompile 'junit:junit:4.+',
+                'org.mockito:mockito-all:1.9.0',
+                'org.springframework:spring-test:3.+',
+                'org.testng:testng:6.+',
+                'org.seleniumhq.selenium:selenium-java:2.23.+',
+                'org.seleniumhq.selenium:selenium-firefox-driver:2.23.+',
+                'com.h2database:h2:1.3.+',
+                'hsqldb:hsqldb:1.8.+'
+
+    emma "emma:emma:2.0.5312"
+    emma "emma:emma_ant:2.0.5312"
+}
+
+jettyRun.doFirst {
+    def webXmlTemplate = file("$webAppDir/WEB-INF/web.xml")
+    def generatedWebXmlFile = file("$buildDir/web.xml")
+    def engine = new groovy.text.SimpleTemplateEngine()
+    def hostName = InetAddress.getLocalHost().getHostName()
+    generatedWebXmlFile.withWriter { w ->
+        w << engine.createTemplate(webXmlTemplate).make([servername: hostName]).toString()
+    }
+}
+jettyRun {
+    contextPath = 'peoplecar'
+    webXml= file("$buildDir/web.xml")
+}
