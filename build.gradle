@@ -47,16 +47,16 @@ dependencies {
     emma "emma:emma_ant:2.0.5312"
 }
 
-jettyRun.doFirst {
-    def webXmlTemplate = file("$webAppDir/WEB-INF/web.xml")
-    def generatedWebXmlFile = file("$buildDir/web.xml")
-    def engine = new groovy.text.SimpleTemplateEngine()
-    def hostName = InetAddress.getLocalHost().getHostName()
-    generatedWebXmlFile.withWriter { w ->
-        w << engine.createTemplate(webXmlTemplate).make([servername: hostName]).toString()
-    }
-}
+//jettyRun.doFirst {
+//    def webXmlTemplate = file("$webAppDir/WEB-INF/web.xml")
+//    def generatedWebXmlFile = file("$buildDir/web.xml")
+//    def engine = new groovy.text.SimpleTemplateEngine()
+//    def hostName = InetAddress.getLocalHost().getHostName()
+//    generatedWebXmlFile.withWriter { w ->
+//        w << engine.createTemplate(webXmlTemplate).make([servername: hostName]).toString()
+//    }
+//}
 jettyRun {
-    contextPath = 'peoplecar'
+    contextPath = ''
     webXml= file("$buildDir/web.xml")
 }
