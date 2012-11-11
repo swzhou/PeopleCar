@@ -25,7 +25,9 @@ dependencies {
             'org.springframework.security:spring-security-config:3.+',
             'org.springframework.security:spring-security-cas:3.+',
             fileTree(dir: 'lib', include: '*.jar'),
-            'org.codehaus.groovy:groovy-all:2.+'
+            'org.codehaus.groovy:groovy-all:2.+',
+            'org.codehaus.jackson:jackson-core-asl:1.+',
+            'org.codehaus.jackson:jackson-mapper-asl:1.9.9'
 
     runtime 'org.slf4j:slf4j-api:1.6.+',
             'org.slf4j:slf4j-log4j12:1.6.+',
