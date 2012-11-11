@@ -4,6 +4,39 @@ apply plugin: 'jetty'
 apply plugin: 'war'
 apply from:'emma.gradle'
 
+apply plugin: 'mysql'
+
+buildscript {
+    repositories {
+        mavenCentral()
+
+        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+            name = 'GitHub'
+            addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+        }
+    }
+    dependencies {
+        classpath 'andreassimon:gradle-mysql-plugin:0.1.4'
+        classpath 'com.googlecode.flyway:flyway-core:1.7'
+        classpath 'mysql:mysql-connector-java:5.+'
+    }
+}
+
+migrationsDir = file('src/main/db/migrations')
+
+databases {
+    development {
+        schema   = "peoplecar_development"
+        password = "12345678"
+    }
+    production {
+        url      = "jdbc:mysql://127.0.0.1:3306/"
+        schema   = "peoplecar"
+        username = "root"
+        password = "12345678"
+    }
+}
+
 repositories {
     mavenCentral()
 }

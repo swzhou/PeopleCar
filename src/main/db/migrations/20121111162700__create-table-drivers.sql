@@ -1,0 +1,7 @@
+CREATE  TABLE drivers (
+  id INT NOT NULL AUTO_INCREMENT ,
+  name VARCHAR(50) NOT NULL ,
+  gender BIT NOT NULL DEFAULT 1 ,
+  birthday DATE NOT NULL ,
+  PRIMARY KEY (id)
+);
